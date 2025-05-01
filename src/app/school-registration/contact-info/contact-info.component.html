@@ -1,0 +1,64 @@
+<div class="step-container">
+    <h2>Contact Information</h2>
+    <p>Add phone numbers organized by department or purpose</p>
+  
+    <form [formGroup]="contactForm">
+      <ng-container formArrayName="phoneNumberGroups">
+        <!-- For each phone number group -->
+        <div *ngFor="let group of phoneNumberGroups.controls; let groupIndex = index" 
+             class="phone-group-container" [formGroupName]="groupIndex">
+          
+          <div class="group-header">
+            <mat-form-field appearance="outline">
+              <mat-label>Group Name</mat-label>
+              <input matInput formControlName="name" placeholder="E.g., General, Office, Instructors">
+            </mat-form-field>
+            
+            <button mat-icon-button color="warn" type="button" 
+                    *ngIf="phoneNumberGroups.length > 1"
+                    (click)="removePhoneNumberGroup(groupIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+  
+          <!-- Phone numbers within the group -->
+          <div formArrayName="phoneNumbers">
+            <div *ngFor="let phone of phoneNumbers(groupIndex).controls; let phoneIndex = index" 
+                [formGroupName]="phoneIndex" class="phone-row">
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Contact Name</mat-label>
+                <input matInput formControlName="name" placeholder="E.g., Front Office, Manager">
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="value" placeholder="Phone number">
+                <mat-icon matSuffix>phone</mat-icon>
+              </mat-form-field>
+              
+              <button mat-icon-button color="warn" type="button"
+                      *ngIf="phoneNumbers(groupIndex).length > 1"
+                      (click)="removePhoneNumber(groupIndex, phoneIndex)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+            
+            <!-- Add phone number button -->
+            <button mat-stroked-button color="primary" type="button" 
+                    (click)="addPhoneNumber(groupIndex)" class="add-button">
+              <mat-icon>add</mat-icon> Add Phone Number
+            </button>
+          </div>
+        </div>
+        
+        <!-- Add new group button -->
+        <div class="add-group-container">
+          <button mat-raised-button color="primary" type="button" 
+                  (click)="addPhoneNumberGroup()">
+            <mat-icon>add</mat-icon> Add Phone Number Group
+          </button>
+        </div>
+      </ng-container>
+    </form>
+  </div>

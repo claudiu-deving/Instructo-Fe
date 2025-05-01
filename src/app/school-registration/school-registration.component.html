@@ -1,0 +1,69 @@
+<div class="registration-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Driving School Registration</mat-card-title>
+        <mat-card-subtitle>Complete all steps to register your school</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <mat-stepper linear="false" #stepper (selectionChange)="onStepChange($event.selectedIndex)">
+          <!-- Step 1: Basic Info -->
+          <mat-step [completed]="steps[0].completed">
+            <ng-template matStepLabel>Basic Info</ng-template>
+            <app-basic-info></app-basic-info>
+          </mat-step>
+          
+          <!-- Step 2: Owner Details -->
+          <mat-step [completed]="steps[1].completed">
+            <ng-template matStepLabel>Owner Details</ng-template>
+            <app-owner-info></app-owner-info>
+          </mat-step>
+          
+          <!-- Step 3: Contact Info -->
+          <mat-step [completed]="steps[2].completed">
+            <ng-template matStepLabel>Contact Info</ng-template>
+            <app-contact-info></app-contact-info>
+          </mat-step>
+          
+          <!-- Step 4: Online Presence -->
+          <mat-step [completed]="steps[3].completed">
+            <ng-template matStepLabel>Online Presence</ng-template>
+            <app-online-presence></app-online-presence>
+          </mat-step>
+          
+          <!-- Step 5: Business Hours -->
+          <mat-step [completed]="steps[4].completed">
+            <ng-template matStepLabel>Business Hours</ng-template>
+            <app-business-hours></app-business-hours>
+          </mat-step>
+          
+          <!-- Step 6: Services -->
+          <mat-step [completed]="steps[5].completed">
+            <ng-template matStepLabel>Services</ng-template>
+            <app-services></app-services>
+          </mat-step>
+          
+          <!-- Step 7: Review -->
+          <mat-step [completed]="steps[6].completed">
+            <ng-template matStepLabel>Review</ng-template>
+            <app-review></app-review>
+          </mat-step>
+        </mat-stepper>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <div class="action-buttons">
+          <button mat-button (click)="onPrevious()" [disabled]="currentStep === 0">
+            <mat-icon>arrow_back</mat-icon> Previous
+          </button>
+          <button *ngIf="currentStep < steps.length - 1" mat-raised-button color="primary" (click)="onNext()">
+            Next <mat-icon>arrow_forward</mat-icon>
+          </button>
+          <button *ngIf="currentStep === steps.length - 1" mat-raised-button color="accent" 
+                  [disabled]="!canSubmit()" (click)="onSubmit()">
+            Submit Registration
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>

@@ -1,0 +1,169 @@
+<div class="step-container">
+    <h2>Review Your Information</h2>
+    <p>Please review all your school details before submission</p>
+  
+    <div class="review-container">
+      <!-- Basic Info Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Basic Information</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/basic-info">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div class="review-row">
+            <span class="label">School Name:</span>
+            <span class="value">{{registrationData.name}}</span>
+          </div>
+          <div class="review-row">
+            <span class="label">Legal Name:</span>
+            <span class="value">{{registrationData.legalName}}</span>
+          </div>
+          <div class="review-row">
+            <span class="label">School Email:</span>
+            <span class="value">{{registrationData.schoolEmail}}</span>
+          </div>
+          <div class="review-row">
+            <span class="label">Address:</span>
+            <span class="value">{{registrationData.address}}, {{registrationData.city}}</span>
+          </div>
+          <div class="review-row">
+            <span class="label">Phone Number:</span>
+            <span class="value">{{registrationData.phoneNumber}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Owner Info Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Owner Information</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/owner-info">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div class="review-row">
+            <span class="label">Name:</span>
+            <span class="value">{{registrationData.ownerFirstName}} {{registrationData.ownerLastName}}</span>
+          </div>
+          <div class="review-row">
+            <span class="label">Email:</span>
+            <span class="value">{{registrationData.ownerEmail}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Phone Number Groups Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Contact Information</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/contact-info">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div *ngFor="let group of registrationData.phoneNumberGroups">
+            <h4>{{group.name}}</h4>
+            <div *ngFor="let phone of group.phoneNumbers" class="review-row">
+              <span class="label">{{phone.name}}:</span>
+              <span class="value">{{phone.value}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Online Presence Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Online Presence</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/online-presence">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div *ngIf="registrationData.websiteLink?.url" class="review-row">
+            <span class="label">Website:</span>
+            <span class="value">
+              {{registrationData.websiteLink.name}} - {{registrationData.websiteLink.url}}
+            </span>
+          </div>
+          
+          <div *ngIf="registrationData.socialMediaLinks?.length">
+            <h4>Social Media</h4>
+            <div *ngFor="let social of registrationData.socialMediaLinks" class="review-row">
+              <span class="label">{{social.socialPlatformName}}:</span>
+              <span class="value">{{social.url}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Business Hours Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Business Hours</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/business-hours">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div *ngFor="let schedule of registrationData.bussinessHours; let i = index">
+            <h4>Schedule {{i + 1}}</h4>
+            <div class="review-row">
+              <span class="label">Days:</span>
+              <span class="value">{{formatBusinessHoursDays(schedule.daysOfTheWeek)}}</span>
+            </div>
+            <div *ngFor="let interval of schedule.intervals; let j = index" class="review-row">
+              <span class="label">Hours {{j + 1}}:</span>
+              <span class="value">{{formatTimeInterval(interval)}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Services Section -->
+      <div class="review-section">
+        <div class="section-header">
+          <h3>Services & Offerings</h3>
+          <button mat-button color="primary" type="button" routerLink="/registration/services">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+        
+        <div class="section-content">
+          <div class="review-row">
+            <span class="label">Vehicle Categories:</span>
+            <div class="value">
+              <mat-chip-set>
+                <mat-chip *ngFor="let category of registrationData.vechiclesCategories">
+                  {{category}} - {{getCategoryName(category)}}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+          
+          <div *ngIf="registrationData.arrCertifications?.length" class="review-row">
+            <span class="label">Certifications:</span>
+            <div class="value">
+              <mat-chip-set>
+                <mat-chip *ngFor="let cert of registrationData.arrCertifications">
+                  {{getCertificationName(cert)}}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="legal-agreement">
+        <mat-checkbox>I confirm that all information provided is accurate and complete.</mat-checkbox>
+      </div>
+    </div>
+  </div>

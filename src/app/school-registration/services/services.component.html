@@ -1,0 +1,68 @@
+<div class="step-container">
+    <h2>Services & Offerings</h2>
+    <p>Select the driving license categories and certifications your school offers</p>
+  
+    <form [formGroup]="servicesForm">
+      <div class="section-container">
+        <h3>Vehicle Categories</h3>
+        <p class="section-description">Select all license categories that your driving school offers training for:</p>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Vehicle Categories</mat-label>
+          <mat-select formControlName="vechiclesCategories" multiple>
+            <mat-option *ngFor="let category of vehicleCategories" [value]="category.code">
+              {{category.code}}: {{category.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="servicesForm.get('vechiclesCategories')?.hasError('required') || 
+                            servicesForm.get('vechiclesCategories')?.hasError('minLength')">
+            Please select at least one vehicle category
+          </mat-error>
+        </mat-form-field>
+        
+        <div class="selected-items" *ngIf="servicesForm.get('vechiclesCategories')?.value?.length">
+          <h4>Selected Categories:</h4>
+          <div class="chip-list">
+            <mat-chip-set>
+              <mat-chip *ngFor="let categoryCode of servicesForm.get('vechiclesCategories')?.value">
+                {{categoryCode}} - {{getCategoryName(categoryCode)}}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-container">
+        <h3>Additional Certifications</h3>
+        <p class="section-description">Select any additional certifications or special courses your school offers:</p>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Certifications</mat-label>
+          <mat-select formControlName="arrCertifications" multiple>
+            <mat-option *ngFor="let cert of certifications" [value]="cert.code">
+              {{cert.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <div class="selected-items" *ngIf="servicesForm.get('arrCertifications')?.value?.length">
+          <h4>Selected Certifications:</h4>
+          <div class="chip-list">
+            <mat-chip-set>
+              <mat-chip *ngFor="let certCode of servicesForm.get('arrCertifications')?.value">
+                {{getCertificationName(certCode)}}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <mat-icon>info</mat-icon>
+        <div class="info-content">
+          <p>The vehicle categories and certifications you select will be displayed on your school's profile.</p>
+          <p>Potential students will be able to search for schools based on these offerings.</p>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,66 @@
+<div class="step-container">
+    <h2>Owner Information</h2>
+    <p>Provide details about the school owner who will manage this account</p>
+  
+    <form [formGroup]="ownerInfoForm">
+      <div class="form-row two-column">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="ownerFirstName" placeholder="Enter first name">
+          <mat-error *ngIf="ownerInfoForm.get('ownerFirstName')?.hasError('required')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="ownerLastName" placeholder="Enter last name">
+          <mat-error *ngIf="ownerInfoForm.get('ownerLastName')?.hasError('required')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="ownerEmail" placeholder="Enter email address">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="ownerInfoForm.get('ownerEmail')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="ownerInfoForm.get('ownerEmail')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="ownerPassword">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-hint>Must be at least 8 characters with upper, lower, number, and special character</mat-hint>
+          <mat-error *ngIf="ownerInfoForm.get('ownerPassword')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="ownerInfoForm.get('ownerPassword')?.hasError('minlength')">
+            Password must be at least 8 characters
+          </mat-error>
+          <mat-error *ngIf="ownerInfoForm.get('ownerPassword')?.hasError('pattern')">
+            Password must include uppercase, lowercase, number and special character
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="info-box">
+        <mat-icon>info</mat-icon>
+        <div class="info-content">
+          <p>This user will have full administrative access to manage your driving school in the system.</p>
+          <p>Make sure to use a secure password and keep it safe.</p>
+        </div>
+      </div>
+    </form>
+  </div>

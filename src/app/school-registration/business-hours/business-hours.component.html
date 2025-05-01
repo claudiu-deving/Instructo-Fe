@@ -1,0 +1,88 @@
+<div class="step-container">
+    <h2>Business Hours</h2>
+    <p>Set your school's operating hours</p>
+  
+    <form [formGroup]="businessHoursForm">
+      <div formArrayName="businessHours">
+        <!-- For each business hours schedule -->
+        <div *ngFor="let schedule of businessHours.controls; let scheduleIndex = index" 
+             class="schedule-container" [formGroupName]="scheduleIndex">
+          
+          <div class="schedule-header">
+            <h3>Schedule {{scheduleIndex + 1}}</h3>
+            
+            <button mat-icon-button color="warn" type="button" 
+                    *ngIf="businessHours.length > 1"
+                    (click)="removeBusinessHours(scheduleIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+  
+          <!-- Days of the week selection -->
+          <div class="days-selection">
+            <label class="days-label">Days:</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Select Days</mat-label>
+              <mat-select formControlName="daysOfTheWeek" multiple>
+                <mat-option *ngFor="let day of weekdays" [value]="day">
+                  {{day}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="businessHours.at(scheduleIndex).get('daysOfTheWeek')?.hasError('required') || 
+                                businessHours.at(scheduleIndex).get('daysOfTheWeek')?.hasError('minLength')">
+                Please select at least one day
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <!-- Time intervals -->
+          <div formArrayName="intervals">
+            <div *ngFor="let interval of intervals(scheduleIndex).controls; let intervalIndex = index" 
+                 [formGroupName]="intervalIndex" class="time-interval-row">
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Start Time</mat-label>
+                <input matInput type="time" formControlName="startingHourAndMinute">
+                <mat-error *ngIf="intervals(scheduleIndex).at(intervalIndex).get('startingHourAndMinute')?.hasError('required')">
+                  Start time is required
+                </mat-error>
+              </mat-form-field>
+              
+              <span class="time-separator">to</span>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>End Time</mat-label>
+                <input matInput type="time" formControlName="endingHourAndMinute">
+                <mat-error *ngIf="intervals(scheduleIndex).at(intervalIndex).get('endingHourAndMinute')?.hasError('required')">
+                  End time is required
+                </mat-error>
+                <mat-error *ngIf="intervals(scheduleIndex).at(intervalIndex).get('endingHourAndMinute')?.hasError('endTimeBeforeStartTime')">
+                  End time must be after start time
+                </mat-error>
+              </mat-form-field>
+              
+              <button mat-icon-button color="warn" type="button"
+                      *ngIf="intervals(scheduleIndex).length > 1"
+                      (click)="removeInterval(scheduleIndex, intervalIndex)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+            
+            <!-- Add time interval button -->
+            <button mat-stroked-button color="primary" type="button" 
+                    (click)="addInterval(scheduleIndex)" class="add-button">
+              <mat-icon>add</mat-icon> Add Time Interval
+            </button>
+          </div>
+        </div>
+        
+        <!-- Add schedule button -->
+        <div class="add-schedule-container">
+          <button mat-raised-button color="primary" type="button" 
+                  (click)="addBusinessHours()">
+            <mat-icon>add</mat-icon> Add Schedule
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>

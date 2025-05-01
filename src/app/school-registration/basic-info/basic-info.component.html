@@ -1,0 +1,86 @@
+<div class="step-container">
+    <h2>School Basic Information</h2>
+    <p>Provide essential information about your driving school</p>
+  
+    <form [formGroup]="basicInfoForm">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>School Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter school name">
+          <mat-error *ngIf="basicInfoForm.get('name')?.hasError('required')">
+            School name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Legal Business Name</mat-label>
+          <input matInput formControlName="legalName" placeholder="Enter legal business name">
+          <mat-error *ngIf="basicInfoForm.get('legalName')?.hasError('required')">
+            Legal business name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>School Email</mat-label>
+          <input matInput formControlName="schoolEmail" placeholder="Enter school email">
+          <mat-error *ngIf="basicInfoForm.get('schoolEmail')?.hasError('required')">
+            School email is required
+          </mat-error>
+          <mat-error *ngIf="basicInfoForm.get('schoolEmail')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row two-column">
+        <mat-form-field appearance="outline">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" placeholder="Enter city">
+          <mat-error *ngIf="basicInfoForm.get('city')?.hasError('required')">
+            City is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" placeholder="Enter address">
+          <mat-error *ngIf="basicInfoForm.get('address')?.hasError('required')">
+            Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Primary Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
+          <mat-error *ngIf="basicInfoForm.get('phoneNumber')?.hasError('required')">
+            Phone number is required
+          </mat-error>
+          <mat-error *ngIf="basicInfoForm.get('phoneNumber')?.hasError('pattern')">
+            Please enter a valid phone number (digits only)
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <div class="image-upload-container">
+          <div class="upload-label">School Logo/Image</div>
+          
+          <div class="image-preview-container" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="School logo preview">
+          </div>
+          
+          <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">
+            <mat-icon>photo_camera</mat-icon>
+            Select Image
+          </button>
+          <input hidden type="file" #fileInput (change)="onFileSelected($event)" accept="image/*">
+        </div>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,94 @@
+<div class="step-container">
+    <h2>Online Presence</h2>
+    <p>Add your website and social media links</p>
+  
+    <form [formGroup]="onlinePresenceForm">
+      <div class="section-container">
+        <h3>Website Information</h3>
+        
+        <div formGroupName="websiteLink">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Website URL</mat-label>
+              <input matInput formControlName="url" placeholder="https://yourwebsite.com">
+              <mat-icon matSuffix>language</mat-icon>
+              <mat-error *ngIf="onlinePresenceForm.get('websiteLink.url')?.hasError('pattern')">
+                Please enter a valid URL
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row two-column">
+            <mat-form-field appearance="outline">
+              <mat-label>Website Name</mat-label>
+              <input matInput formControlName="name" placeholder="Main Website, Blog, etc.">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" placeholder="Brief description">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <div class="icon-upload-container" formGroupName="iconData">
+              <div class="upload-label">Website Icon</div>
+              
+              <div class="image-preview-container" *ngIf="websiteIconPreview">
+                <img [src]="websiteIconPreview" alt="Website icon preview">
+              </div>
+              
+              <button type="button" mat-raised-button color="primary" (click)="iconFileInput.click()">
+                <mat-icon>image</mat-icon>
+                Select Icon
+              </button>
+              <input hidden type="file" #iconFileInput (change)="onWebsiteIconSelected($event)" accept="image/*">
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Icon Description</mat-label>
+                <input matInput formControlName="description" placeholder="Icon description">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-container">
+        <h3>Social Media Links</h3>
+        
+        <div formArrayName="socialMediaLinks">
+          <div *ngFor="let socialLink of socialMediaLinks.controls; let i = index" 
+               [formGroupName]="i" class="social-link-row">
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Platform</mat-label>
+              <mat-select formControlName="socialPlatformName">
+                <mat-option *ngFor="let platform of socialPlatforms" [value]="platform">
+                  {{platform}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Profile URL</mat-label>
+              <input matInput formControlName="url" placeholder="https://platform.com/yourprofile">
+              <mat-error *ngIf="socialMediaLinks.controls[i].get('url')?.hasError('pattern')">
+                Please enter a valid URL
+              </mat-error>
+            </mat-form-field>
+            
+            <button mat-icon-button color="warn" type="button"
+                    *ngIf="socialMediaLinks.length > 1"
+                    (click)="removeSocialMediaLink(i)">
+              <mat-icon>remove_circle</mat-icon>
+            </button> 
+          </div>
+          
+          <button mat-stroked-button color="primary" type="button" 
+                  (click)="addSocialMediaLink()" class="add-button">
+            <mat-icon>add</mat-icon> Add Social Media Link
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
